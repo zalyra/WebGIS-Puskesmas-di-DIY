@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My WebGIS - A.Zada.A</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+      #map {
+        width: 100%;
+        height: 550px;
+        border-radius: 15px;
+      }
+      .dark-mode {
+        background-color: #121212 !important;
+        color: white !important;
+      }
+      .dark-mode section {
+        background-color: #1e1e1e !important;
+      }
+      .dark-mode .card,
+      .dark-mode .bg-white {
+        background-color: #2c2c2c !important;
+        color: white !important;
+      }
+      #loader {
+        position: absolute;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        font-weight: bold;
+      }
+      .legend {
+        background: white;
+        padding: 10px;
+        line-height: 18px;
+        color: #333;
+        border-radius: 5px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+      .legend i {
+        width: 14px;
+        height: 14px;
+        float: left;
+        margin-right: 8px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+
+  <body id="Home" style="background-color: #fef6e3">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow fixed-top" style="background-color: #002975">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">🏥 WebGIS Puskesmas DIY</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#lokasi">Peta Lokasi</a></li>
+            <li class="nav-item"><a class="nav-link" href="no16.html" target="_blank">📄 CV</a></li>
+            <li class="nav-item ms-3"><button onclick="toggleDarkMode()" class="btn btn-sm btn-light rounded-pill">🌙</button></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="about" class="py-5 mt-5">
+      <div class="container text-center">
+        <h2 class="fw-bold">🌍 Tentang WebGIS</h2>
+        <p>
+          WebGIS ini menampilkan persebaran puskesmas yang ada di Provinsi Daerah Istimewa Yogyakarta. Setiap puskesmas ditampilkan sebagai titik lokasi yang dilengkapi dengan informasi koordinat. Peta ini bertujuan untuk memudahkan
+          masyarakat dalam mencari fasilitas kesehatan terdekat.
+        </p>
+      </div>
+    </section>
+
+    <section id="lokasi" class="py-5">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="fw-bold">🏙️ Lokasi Puskesmas</h2>
+            <p class="text-muted">Gunakan switcher (layer control) di pojok kanan atas untuk ganti basemap.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col position-relative">
+            <div id="loader">🔄 Memuat data puskesmas...</div>
+            <div id="map" class="shadow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center py-4 mt-5" style="background-color: #0e4392; color: #fef6e3">
+      <p class="mb-0 text-white">Created by <b>Annysa Zada Almyra</b> © 2026</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script>
+      // 1. Inisialisasi Peta (SetView ke Tengah DIY)
+      var map = L.map("map").setView([-7.87, 110.42], 10);
+
+      // 2. Basemaps
+      var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+      var satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}");
+
+      // 3. Layer Grouping
+      var layerKesehatan = L.layerGroup();
+
+      // 4. Load CSV dari Google Sheets (Link sudah saya masukkan ke variabel)
+      var googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLRg7uNpJRSzfbK-W-73PqOnmnsMMBq0sBEl_5S4YXQmArbhyvWC9Nlt9yf4s36myjhLAuuoqsR-C9/pub?gid=1328194276&single=true&output=csv";
+
+      Papa.parse(googleSheetURL, {
+        download: true,
+        header: true,
+        complete: function (results) {
+          results.data.forEach(function (row) {
+            if (row.Lat && row.Long) {
+              var marker = L.circleMarker([parseFloat(row.Lat), parseFloat(row.Long)], {
+                radius: 8,
+                fillColor: "red",
+                color: "#fff",
+                weight: 2,
+                fillOpacity: 0.9,
+              }).bindPopup("<b>" + row.Nama + "</b><br>" + row.Keterangan);
+
+              marker.addTo(layerKesehatan);
+            }
+          });
+
+          // Tambahkan layer ke peta
+          layerKesehatan.addTo(map);
+
+          // Layer Control
+          var baseMaps = { "Jalan (OSM)": osm, "Satelit (Esri)": satellite };
+          var overlayMaps = { "Titik Puskesmas": layerKesehatan };
+          L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+          document.getElementById("loader").style.display = "none";
+        },
+      });
+
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
+    </script>
+  </body>
+</html>
