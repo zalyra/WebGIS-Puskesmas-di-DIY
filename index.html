@@ -23,7 +23,21 @@
         background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       }
       .card-info:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+      /* Menghilangkan latar putih bawaan Leaflet */
+.leaflet-container {
+    background-color: #fef6e3 !important;
+}
 
+/* Mengubah warna latar section peta agar konsisten */
+#lokasi {
+    background-color: #fef6e3 !important;
+    transition: 0.3s;
+}
+
+/* Memastikan loader juga punya warna yang sama agar transisinya halus */
+#loader {
+    background: #fef6e3; 
+}
       #loader {
         position: absolute; z-index: 1000; background: rgba(254, 246, 227, 0.9);
         width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
