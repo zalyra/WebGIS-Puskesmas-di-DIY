@@ -3,353 +3,181 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My WebGIS - A.Zada.A</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script type="text/javascript" src="data/slemangeojson_1.js"></script>
-    <script type="text/javascript" src="data/koordinat_2.js"></script>
-    <style>
-      #map {
-        width: 100%;
-        height: 500px;
-      }
-    </style>
-    <style>
-      .d-flex::-webkit-scrollbar {
-        height: 8px;
-      }
-      .d-flex::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 10px;
-      }
-      .card:hover {
-        transform: scale(1.05);
-        transition: 0.3s;
-      }
-    </style>
-<style>
-.navbar-nav .nav-link {
-  position: relative;
-  transition: 0.3s;
-}
-.navbar-nav .nav-link::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  left: 0;
-  bottom: 0;
-  background-color: #fef6e3;
-  transition: 0.3s;
-}
-.navbar-nav .nav-link:hover::after {
-  width: 100%;
-}
-</style>
- <style>
-.gallery-card {
-  min-width: 250px;
-  border: none;
-  border-radius: 15px;
-  overflow: hidden;
-  transition: 0.3s;
-}
-.gallery-card img {
-  height: 170px;
-  object-fit: cover;
-}
-.gallery-card:hover {
-  transform: scale(1.05);
-}
-#galery .overflow-auto::-webkit-scrollbar {
-  height: 8px;
-}
+    <title>WebGIS Sleman - Annysa Zada</title>
 
-#galery .overflow-auto::-webkit-scrollbar-thumb {
-  background: #0d469a;
-  border-radius: 10px;
-}
-</style>
-  <style>
-.leaflet-popup-content-wrapper {
-  background:#fef6e3;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  border-radius: 12px;
-}
-.leaflet-popup-tip {
-  background: #fef6e3;
-}
-
-.dark-mode {
-  background-color: #121212 !important;
-  color: white !important;
-}
-
-.dark-mode section {
-  background-color: #1e1e1e !important;
-}
-
-.dark-mode .card {
-  background-color: #2c2c2c !important;
-  color: white !important;
-}
-
-.dark-mode .text-muted {
-  color: #cccccc !important;
-}
-.dark-mode .bg-white {
-  background-color: #2c2c2c !important;
-  color: white !important;
-}
-.dark-mode p,
-.dark-mode h5 {
-  color: white !important;
-}
-
-</style>
-  </head>
-  <body id="Home">
-<nav class="navbar navbar-expand-lg navbar-dark shadow fixed-top" style="background-color:#002975;">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">
-      🧭 Peta digital persebaran objek penting di Kabupaten Sleman
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-     <ul class="navbar-nav ms-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="#home">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#about">About</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#galery">Galery</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#lokasi">Lokasi</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#contact">Contact</a>
-  </li>
- <li class="nav-item">
-    <a class="nav-link" href="no16.html" target="_blank">📄 CV</a>
-  </li>
-  <!-- DARK MODE BUTTON -->
- <li class="nav-item ms-3">
-  <button onclick="toggleDarkMode()" class="btn btn-sm btn-light rounded-pill">
-    🌙
-  </button>
-</li>
-</ul>
-    </div>
-  </div>
-</nav>
-<section id="about" class="py-5" style="background-color:#fef6e3;">
-  <div class="container">
-
-    <!-- Judul -->
-    <div class="row text-center mb-4">
-      <div class="col">
-        <h2 class="fw-bold">Tentang Web</h2>
-        <p class="text-muted">Informasi WebGIS Kabupaten Sleman</p>
-      </div>
-    </div>
-
-    <!-- Tentang -->
-    <div class="row justify-content-center mb-4">
-      <div class="col-md-8">
-        <div class="p-4 shadow-sm bg-white rounded-4 text-center">
-          <h5 class="fw-semibold mb-3">🌍 Tentang WebGIS</h5>
-          <p class="mb-0">
-            Web ini berisi peta digital persebaran objek penting di Kabupaten Sleman seperti 
-            candi, masjid, universitas, sekolah, dan rumah sakit.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tujuan -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="p-4 shadow-sm bg-white rounded-4 text-center">
-          <h5 class="fw-semibold mb-3">🎯 Tujuan</h5>
-          <p class="mb-0">
-            Website ini bertujuan membantu pengguna dalam mengetahui lokasi objek penting 
-            secara cepat melalui peta digital yang interaktif.
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="galery" class="py-5" style="background-color:#fef6e3;">
-  <div class="container">
-
-    <div class="row text-center mb-4">
-      <div class="col">
-        <h2 class="fw-bold">📸 Galeri Sleman </h2>
-        <p class="text-muted">Tempat Penting yang ada di Kabupaten Sleman</p>
-      </div>
-    </div>
-
-    <div class="d-flex overflow-auto gap-4 pb-3">
-
-      <div class="card gallery-card">
-       <img src="masjid kristal Ngemplak.png" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Masjid Kristal Ngemplak</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="Puskesmas 2.png" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Puskesmas Ngemplak 2</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="ugm.png"card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Universitas Gadjah Mada</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="PN sleman.png" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Pengadilan Negeri Sleman</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="polsek ngemplak sleman.jpg" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Polisi Sektor Ngemplak Sleman</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="smp 1ngemplak.jpg" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">SMP N 1 Ngemplak</h6>
-        </div>
-      </div>
-
-      <div class="card gallery-card">
-        <img src="Maguwo_Train_Station,_Yogyakarta,_Indonesia.jpg" class="card-img-top" />
-        <div class="card-body text-center">
-          <h6 class="card-title">Stasiun Maguwoharjo</h6>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Galery End -->
-
-  <!-- WebGIS -->
-<section id="lokasi" class="py-5" style="background-color:#fef6e3;">
-  <div class="container">
-    <!-- Judul -->
-    <div class="row text-center mb-4">
-      <div class="col">
-        <h2 class="fw-bold">🏙️Lokasi Tempat Penting</h2>
-        <p class="text-muted">🌍Peta Digital Kabupaten Sleman</p>
-      </div>
-    </div>
-
-    <!-- Peta -->
-    <div class="row">
-      <div class="col">
-        <div class="shadow rounded-4 overflow-hidden">
-          <iframe 
-            src="./index.html" 
-            width="100%" 
-            height="500" 
-            style="border:none;">
-          </iframe>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-<!-- WebGIS End -->
-    <!-- Contact -->
-<section id="contact" class="py-5" style="background-color:#fef6e3;">
-  <div class="container">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <div class="row text-center mb-4">
-      <div class="col">
-        <h2 class="fw-bold">📩 Contact Us</h2>
-        <p class="text-muted">Hubungi kami untuk informasi lebih lanjut ✨</p>
-      </div>
-    </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-    <div class="row justify-content-center">
-      <div class="col-md-6">
+    <style>
+      body { font-family: 'Poppins', sans-serif; transition: 0.3s; }
+      #map { width: 100%; height: 500px; }
+      
+      /* --- Navbar Styling --- */
+      .navbar-nav .nav-link { position: relative; transition: 0.3s; }
+      .navbar-nav .nav-link::after {
+        content: ""; position: absolute; width: 0; height: 2px;
+        left: 0; bottom: 0; background-color: #fef6e3; transition: 0.3s;
+      }
+      .navbar-nav .nav-link:hover::after { width: 100%; }
 
-        <!-- CARD -->
-        <div class="card shadow-lg border-0 rounded-4 p-4" style="background:#ffffffcc; backdrop-filter: blur(10px);">
+      /* --- Gallery Styling --- */
+      .gallery-card {
+        min-width: 280px; border: none; border-radius: 15px;
+        overflow: hidden; transition: 0.4s; background: #fff;
+      }
+      .gallery-card img { height: 180px; object-fit: cover; }
+      .gallery-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+      
+      .overflow-auto::-webkit-scrollbar { height: 8px; }
+      .overflow-auto::-webkit-scrollbar-thumb { background: #002975; border-radius: 10px; }
 
-          <form>
+      /* --- Dark Mode Custom --- */
+      .dark-mode { background-color: #121212 !important; color: white !important; }
+      .dark-mode section { background-color: #1e1e1e !important; }
+      .dark-mode .card, .dark-mode .bg-white { background-color: #2c2c2c !important; color: white !important; }
+      .dark-mode .text-muted { color: #aaa !important; }
+      .dark-mode label { color: white; }
+    </style>
+  </head>
 
-            <!-- Nama -->
-            <div class="mb-3">
-              <label for="name" class="form-label fw-semibold">👤 Nama Lengkap</label>
-              <input type="text" class="form-control rounded-3" id="name" placeholder="Masukkan nama lengkap" required>
-            </div>
+  <body id="Home" style="background-color:#fef6e3;">
 
-            <!-- Email -->
-            <div class="mb-3">
-              <label for="email" class="form-label fw-semibold">📧 Email</label>
-              <input type="email" class="form-control rounded-3" id="email" placeholder="Masukkan email" required>
-            </div>
-
-            <!-- Pesan -->
-            <div class="mb-3">
-              <label for="pesan" class="form-label fw-semibold">📝 Pesan</label>
-              <textarea class="form-control rounded-3" id="pesan" rows="3" placeholder="Tulis pesan Anda..." required></textarea>
-            </div>
-
-            <!-- Button -->
-            <bu type="submit" class="btn w-100 rounded-pill" 
-  style="background-color: #0d469a; color: white;">
-  Kirim Pesan 🚀
-            </button>
-
-          </form>
-
+    <nav class="navbar navbar-expand-lg navbar-dark shadow fixed-top" style="background-color:#002975;">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">🧭 WebGIS Objek Penting Sleman</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#Home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#galery">Gallery</a></li>
+            <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item ms-lg-3"><button onclick="toggleDarkMode()" class="btn btn-sm btn-light rounded-pill mt-1">🌙 Mode</button></li>
+          </ul>
         </div>
-
       </div>
-    </div>
+    </nav>
 
-  </div>
-</section>
-<!-- Contact End -->
+    <section id="about" class="py-5 mt-5">
+      <div class="container py-4">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="fw-bold">🌍 Tentang Web</h2>
+            <p class="text-muted">Sistem Informasi Geografis Kabupaten Sleman</p>
+          </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-5">
+            <div class="p-4 shadow-sm bg-white rounded-4 text-center h-100">
+              <h5 class="fw-bold mb-3 text-primary">Informasi</h5>
+              <p>Berisi peta digital persebaran objek penting seperti Candi, Masjid, Universitas, dan Rumah Sakit di Sleman.</p>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="p-4 shadow-sm bg-white rounded-4 text-center h-100">
+              <h5 class="fw-bold mb-3 text-primary">Tujuan</h5>
+              <p>Membantu masyarakat menemukan lokasi fasilitas umum secara interaktif dan akurat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- Footer -->
-<footer class="text-center py-4 w-100" style="background-color:#0e4392; color:#fef6e3;">
-  <div class="container">
-    <p class="mb-2">Created by <b>Annysa Zada Almyra</b></p>
+    <section id="galery" class="py-5">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="fw-bold">📸 Galeri Sleman</h2>
+            <p class="text-muted">Fasilitas dan Landmark Populer</p>
+          </div>
+        </div>
+        <div class="d-flex overflow-auto gap-4 pb-4">
+          <div class="card gallery-card">
+            <img src="masjid kristal Ngemplak.png" class="card-img-top" alt="Masjid">
+            <div class="card-body text-center"><h6>Masjid Kristal Ngemplak</h6></div>
+          </div>
+          <div class="card gallery-card">
+            <img src="ugm.png" class="card-img-top" alt="UGM">
+            <div class="card-body text-center"><h6>Universitas Gadjah Mada</h6></div>
+          </div>
+          <div class="card gallery-card">
+            <img src="Puskesmas 2.png" class="card-img-top" alt="Puskesmas">
+            <div class="card-body text-center"><h6>Puskesmas Ngemplak 2</h6></div>
+          </div>
+          <div class="card gallery-card">
+            <img src="Maguwo_Train_Station,_Yogyakarta,_Indonesia.jpg" class="card-img-top" alt="Stasiun">
+            <div class="card-body text-center"><h6>Stasiun Maguwoharjo</h6></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <small>© 2026 WebGIS Kabupaten Sleman</small>
-  </div>
-  </div>
-</footer>
-<!-- Akhir Footer -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
- <script>
-function toggleDarkMode() {
-  document.body.classList.toggle("dark-mode");
-}
-</script>
+    <section id="lokasi" class="py-5">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="fw-bold">🏙️ Lokasi Objek Penting</h2>
+            <p class="text-muted">Gunakan peta interaktif di bawah ini</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="shadow rounded-4 overflow-hidden bg-white p-2">
+              <iframe src="./index.html" width="100%" height="550" style="border:none;"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-5">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <div class="col">
+            <h2 class="fw-bold">📩 Hubungi Kami</h2>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+              <form>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Nama Lengkap</label>
+                  <input type="text" class="form-control" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Email</label>
+                  <input type="email" class="form-control" placeholder="email@contoh.com" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Pesan</label>
+                  <textarea class="form-control" rows="3" placeholder="Tulis pesan..." required></textarea>
+                </div>
+                <button type="submit" class="btn w-100 rounded-pill text-white" style="background-color: #0d469a;">Kirim Pesan 🚀</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center py-4 mt-5" style="background-color:#002975; color:#fef6e3;">
+      <div class="container">
+        <p class="mb-0">Created by <b>Annysa Zada Almyra</b> © 2026</p>
+        <small>D4 Teknologi Survei dan Pemetaan - UGM</small>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
+    </script>
   </body>
 </html>
