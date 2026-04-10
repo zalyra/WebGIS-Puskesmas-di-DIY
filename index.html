@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>WebGIS Sleman - Annysa Zada</title>
+    <title>WebGIS Kabupaten Sleman - Annysa Zada</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
@@ -11,170 +11,151 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-      body { font-family: 'Poppins', sans-serif; transition: 0.3s; }
-      #map { width: 100%; height: 500px; }
+      body { font-family: 'Poppins', sans-serif; transition: 0.3s; background-color: #fef6e3; }
+      #map { width: 100%; height: 550px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
       
-      /* --- Navbar Styling --- */
-      .navbar-nav .nav-link { position: relative; transition: 0.3s; }
-      .navbar-nav .nav-link::after {
-        content: ""; position: absolute; width: 0; height: 2px;
-        left: 0; bottom: 0; background-color: #fef6e3; transition: 0.3s;
-      }
-      .navbar-nav .nav-link:hover::after { width: 100%; }
+      .navbar { background-color: #002975; }
+      .nav-link { position: relative; transition: 0.3s; }
+      .nav-link:hover { color: #fef6e3 !important; }
 
-      /* --- Gallery Styling --- */
-      .gallery-card {
-        min-width: 280px; border: none; border-radius: 15px;
-        overflow: hidden; transition: 0.4s; background: #fff;
+      .card-info {
+        border: none; border-radius: 20px; transition: 0.3s;
+        background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       }
-      .gallery-card img { height: 180px; object-fit: cover; }
-      .gallery-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-      
-      .overflow-auto::-webkit-scrollbar { height: 8px; }
-      .overflow-auto::-webkit-scrollbar-thumb { background: #002975; border-radius: 10px; }
+      .card-info:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
 
-      /* --- Dark Mode Custom --- */
+      #loader {
+        position: absolute; z-index: 1000; background: rgba(254, 246, 227, 0.9);
+        width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+        border-radius: 15px; font-weight: bold;
+      }
+
+      /* Dark Mode Styling */
       .dark-mode { background-color: #121212 !important; color: white !important; }
       .dark-mode section { background-color: #1e1e1e !important; }
-      .dark-mode .card, .dark-mode .bg-white { background-color: #2c2c2c !important; color: white !important; }
+      .dark-mode .card-info { background-color: #2c2c2c !important; color: white !important; }
       .dark-mode .text-muted { color: #aaa !important; }
-      .dark-mode label { color: white; }
+      .dark-mode .navbar { background-color: #000 !important; border-bottom: 1px solid #002975; }
     </style>
   </head>
 
-  <body id="Home" style="background-color:#fef6e3;">
+  <body id="Home">
 
-    <nav class="navbar navbar-expand-lg navbar-dark shadow fixed-top" style="background-color:#002975;">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow fixed-top">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="#">🧭 WebGIS Objek Penting Sleman</a>
+        <a class="navbar-brand fw-bold" href="#">🏥 WebGIS Puskesmas DIY</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#Home">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#galery">Gallery</a></li>
-            <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            <li class="nav-item ms-lg-3"><button onclick="toggleDarkMode()" class="btn btn-sm btn-light rounded-pill mt-1">🌙 Mode</button></li>
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item"><a class="nav-link px-3" href="#about">Tentang</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="#lokasi">Peta Lokasi</a></li>
+            <li class="nav-item"><a class="nav-link px-3" href="no16.html" target="_blank">📄 CV</a></li>
+            <li class="nav-item ms-lg-3"><button onclick="toggleDarkMode()" class="btn btn-sm btn-light rounded-pill px-3">🌙 Mode</button></li>
           </ul>
         </div>
       </div>
     </nav>
 
     <section id="about" class="py-5 mt-5">
-      <div class="container py-4">
-        <div class="row text-center mb-4">
+      <div class="container py-5">
+        <div class="row text-center mb-5">
           <div class="col">
-            <h2 class="fw-bold">🌍 Tentang Web</h2>
-            <p class="text-muted">Sistem Informasi Geografis Kabupaten Sleman</p>
+            <h2 class="fw-bold display-6">🌍 WebGIS Puskesmas DIY</h2>
+            <p class="text-muted fs-5">Sistem Informasi Geografis Persebaran Fasilitas Kesehatan</p>
           </div>
         </div>
+
         <div class="row g-4 justify-content-center">
           <div class="col-md-5">
-            <div class="p-4 shadow-sm bg-white rounded-4 text-center h-100">
-              <h5 class="fw-bold mb-3 text-primary">Informasi</h5>
-              <p>Berisi peta digital persebaran objek penting seperti Candi, Masjid, Universitas, dan Rumah Sakit di Sleman.</p>
+            <div class="card-info p-4 h-100 text-center">
+              <div class="fs-1 mb-3">📋</div>
+              <h4 class="fw-bold">Tentang Web</h4>
+              <p>Menampilkan persebaran titik lokasi Puskesmas di Provinsi DIY secara real-time yang terintegrasi langsung dengan database Google Sheets.</p>
             </div>
           </div>
           <div class="col-md-5">
-            <div class="p-4 shadow-sm bg-white rounded-4 text-center h-100">
-              <h5 class="fw-bold mb-3 text-primary">Tujuan</h5>
-              <p>Membantu masyarakat menemukan lokasi fasilitas umum secara interaktif dan akurat.</p>
+            <div class="card-info p-4 h-100 text-center">
+              <div class="fs-1 mb-3">🎯</div>
+              <h4 class="fw-bold">Tujuan</h4>
+              <p>Memudahkan masyarakat dan pendatang di wilayah Yogyakarta untuk menemukan fasilitas kesehatan terdekat dengan cepat dan akurat.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="galery" class="py-5">
+    <section id="lokasi" class="py-5 bg-white shadow-sm" style="transition: 0.3s;">
       <div class="container">
         <div class="row text-center mb-4">
           <div class="col">
-            <h2 class="fw-bold">📸 Galeri Sleman</h2>
-            <p class="text-muted">Fasilitas dan Landmark Populer</p>
-          </div>
-        </div>
-        <div class="d-flex overflow-auto gap-4 pb-4">
-          <div class="card gallery-card">
-            <img src="masjid kristal Ngemplak.png" class="card-img-top" alt="Masjid">
-            <div class="card-body text-center"><h6>Masjid Kristal Ngemplak</h6></div>
-          </div>
-          <div class="card gallery-card">
-            <img src="ugm.png" class="card-img-top" alt="UGM">
-            <div class="card-body text-center"><h6>Universitas Gadjah Mada</h6></div>
-          </div>
-          <div class="card gallery-card">
-            <img src="Puskesmas 2.png" class="card-img-top" alt="Puskesmas">
-            <div class="card-body text-center"><h6>Puskesmas Ngemplak 2</h6></div>
-          </div>
-          <div class="card gallery-card">
-            <img src="Maguwo_Train_Station,_Yogyakarta,_Indonesia.jpg" class="card-img-top" alt="Stasiun">
-            <div class="card-body text-center"><h6>Stasiun Maguwoharjo</h6></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="lokasi" class="py-5">
-      <div class="container">
-        <div class="row text-center mb-4">
-          <div class="col">
-            <h2 class="fw-bold">🏙️ Lokasi Objek Penting</h2>
-            <p class="text-muted">Gunakan peta interaktif di bawah ini</p>
+            <h2 class="fw-bold">🏙️ Peta Lokasi Puskesmas</h2>
+            <p class="text-muted">Klik pada titik merah untuk melihat detail nama Puskesmas</p>
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <div class="shadow rounded-4 overflow-hidden bg-white p-2">
-              <iframe src="./index.html" width="100%" height="550" style="border:none;"></iframe>
-            </div>
+          <div class="col position-relative">
+            <div id="loader">🔄 Memuat data peta...</div>
+            <div id="map"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="py-5">
+    <footer class="text-center py-4" style="background-color:#002975; color:white;">
       <div class="container">
-        <div class="row text-center mb-4">
-          <div class="col">
-            <h2 class="fw-bold">📩 Hubungi Kami</h2>
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-md-6">
-            <div class="card shadow-lg border-0 rounded-4 p-4">
-              <form>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Nama Lengkap</label>
-                  <input type="text" class="form-control" placeholder="Nama Anda" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Email</label>
-                  <input type="email" class="form-control" placeholder="email@contoh.com" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label fw-bold">Pesan</label>
-                  <textarea class="form-control" rows="3" placeholder="Tulis pesan..." required></textarea>
-                </div>
-                <button type="submit" class="btn w-100 rounded-pill text-white" style="background-color: #0d469a;">Kirim Pesan 🚀</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="text-center py-4 mt-5" style="background-color:#002975; color:#fef6e3;">
-      <div class="container">
-        <p class="mb-0">Created by <b>Annysa Zada Almyra</b> © 2026</p>
-        <small>D4 Teknologi Survei dan Pemetaan - UGM</small>
+        <p class="mb-1">Created by <b>Annysa Zada Almyra</b> © 2026</p>
+        <small>D4 Teknologi Survei dan Pemetaan - Universitas Gadjah Mada</small>
       </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
     <script>
+      // 1. Setup Peta
+      var map = L.map("map").setView([-7.87, 110.42], 10);
+
+      var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      
+      var satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}");
+
+      var layerKesehatan = L.layerGroup().addTo(map);
+
+      // 2. Ambil Data dari Google Sheets
+      var googleSheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6z0wRB29a-x6jrkmzS18o8SjjoyM_dxgbrnCwcvquz76k5S686kx4c3-PTXYwd8ySXId7XfSQRzWy/pub?gid=0&single=true&output=csv";
+
+      Papa.parse(googleSheetURL, {
+        download: true,
+        header: true,
+        complete: function (results) {
+          results.data.forEach(function (row) {
+            var lat = parseFloat(row.Lat);
+            var long = parseFloat(row.Long);
+
+            if (!isNaN(lat) && !isNaN(long)) {
+              L.circleMarker([lat, long], {
+                radius: 8,
+                fillColor: "red",
+                color: "#fff",
+                weight: 2,
+                fillOpacity: 0.9,
+              })
+              .bindPopup("<b>" + (row.Nama || "Puskesmas") + "</b><br>" + (row.Keterangan || ""))
+              .addTo(layerKesehatan);
+            }
+          });
+
+          // Layer Control
+          L.control.layers({ "Peta Jalan": osm, "Satelit": satellite }, { "Titik Puskesmas": layerKesehatan }).addTo(map);
+          document.getElementById("loader").style.display = "none";
+        }
+      });
+
       function toggleDarkMode() {
         document.body.classList.toggle("dark-mode");
       }
