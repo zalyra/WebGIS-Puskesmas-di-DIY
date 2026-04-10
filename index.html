@@ -43,7 +43,24 @@
         width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
         border-radius: 15px; font-weight: bold;
       }
+/* Membuat peta menjadi gelap saat Dark Mode aktif */
+.dark-mode .leaflet-tile {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
 
+/* Memastikan area kosong di sekitar peta juga jadi gelap */
+.dark-mode .leaflet-container, 
+.dark-mode #lokasi,
+.dark-mode #loader {
+    background-color: #1e1e1e !important;
+}
+
+/* Mengatur warna popup agar teksnya terbaca di mode gelap */
+.dark-mode .leaflet-popup-content-wrapper, 
+.dark-mode .leaflet-popup-tip {
+    background-color: #2c2c2c;
+    color: white;
+}
       /* Dark Mode Styling */
       .dark-mode { background-color: #121212 !important; color: white !important; }
       .dark-mode section { background-color: #1e1e1e !important; }
